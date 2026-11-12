@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>四季英语乐园 · 4 Seasons & Chinese Festival & What do you do?</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--ink:#2c2743;--muted:#8b84a8;--radius:18px}
+html,body{height:100%}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);touch-action:manipulation;
+  background:
+    radial-gradient(900px 600px at 8% 0%, #ffe8f4 0%, transparent 60%),
+    radial-gradient(900px 600px at 95% 8%, #e2f4ff 0%, transparent 60%),
+    radial-gradient(900px 700px at 50% 105%, #fff3d9 0%, transparent 60%),
+    #fbfaff;
+  min-height:100vh;padding:14px 14px 46px;display:flex;justify-content:center;
+}
+.app{width:100%;max-width:1040px}
+
+/* ---------- 屏幕切换 ---------- */
+.screen{display:none;animation:fadeIn .35s ease}
+.screen.active{display:block}
+.cf-panel,.wd-panel,.s4-panel{display:none;animation:fadeIn .32s ease}
+.cf-panel.active,.wd-panel.active,.s4-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ---------- 顶部栏 ---------- */
+.mod-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.home-btn{border:none;background:#fff;border-radius:999px;padding:8px 15px;font-family:inherit;
+  font-weight:800;font-size:13px;cursor:pointer;color:var(--ink);white-space:nowrap;
+  box-shadow:0 4px 14px rgba(120,100,200,.14);transition:.15s}
+.home-btn:hover{background:#f5f1ff}
+.home-btn:active{transform:scale(.94)}
+.mod-title{font-weight:800;font-size:clamp(13px,3.4vw,17px);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;min-width:0;
+  background:linear-gradient(90deg,#ff6fa5,#8b5cf6);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hud-right{display:flex;align-items:center;gap:8px;flex:none}
+.pill{background:#fff;border-radius:999px;padding:6px 15px;font-weight:800;
+  box-shadow:0 4px 14px rgba(120,100,200,.14);font-size:13.5px;white-space:nowrap}
+.pill b{color:#8b5cf6;font-size:16px}
+.icon-btn{border:none;background:#fff;border-radius:999px;width:38px;height:38px;
+  font-size:17px;cursor:pointer;box-shadow:0 4px 14px rgba(120,100,200,.14);
+  transition:.15s;flex:none}
+.icon-btn:active{transform:scale(.92)}
+
+/* ---------- 首页 ---------- */
+.home-hero{text-align:center;padding:26px 16px 40px}
+.home-hero h1{font-size:clamp(24px,6.4vw,40px);line-height:1.35;margin-bottom:12px;letter-spacing:1px}
+.home-hero h1 em{font-style:normal;background:linear-gradient(90deg,#ff6fa5,#8b5cf6,#38bdf8);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.home-hero .lead{color:var(--muted);font-size:clamp(12.5px,3.2vw,15px);
+  margin-bottom:30px;font-weight:700;line-height:1.8}
+.module-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:16px;max-width:1010px;margin:0 auto}
+.module-card{font-family:inherit;cursor:pointer;border:none;border-radius:26px;
+  padding:26px 18px 22px;background:#fff;text-align:center;
+  box-shadow:0 16px 40px rgba(140,120,220,.15);
+  border-top:6px solid #ffa4cb;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.module-card:nth-child(1){border-top-color:#34d399}
+.module-card:nth-child(2){border-top-color:#ffa4cb}
+.module-card:nth-child(3){border-top-color:#63cbf0}
+.module-card:hover{transform:translateY(-5px);box-shadow:0 22px 50px rgba(140,120,220,.24)}
+.module-card:active{transform:translateY(-2px) scale(.99)}
+.mc-emoji{font-size:34px;letter-spacing:6px;margin-bottom:12px}
+.module-card h2{font-size:clamp(16px,4.2vw,21px);margin-bottom:8px;color:var(--ink)}
+.module-card .mc-desc{font-size:12.5px;color:var(--muted);line-height:1.9;font-weight:700;margin-bottom:16px}
+.mc-go{display:inline-block;font-size:13px;font-weight:800;color:#fff;padding:9px 22px;
+  border-radius:999px;background:linear-gradient(135deg,#8b5cf6,#ff6fa5);
+  box-shadow:0 8px 20px rgba(139,92,246,.32)}
+.module-card:nth-child(1) .mc-go{background:linear-gradient(135deg,#10b981,#34d399);
+  box-shadow:0 8px 20px rgba(16,185,129,.32)}
+.module-card:nth-child(3) .mc-go{background:linear-gradient(135deg,#0ea5e9,#22d3ee);
+  box-shadow:0 8px 20px rgba(14,165,233,.32)}
+
+/* ---------- 进度条 ---------- */
+.progress-track{height:10px;background:#ece8f8;border-radius:999px;overflow:hidden;margin-bottom:18px}
+.progress-fill{height:100%;width:0;border-radius:999px;
+  background:linear-gradient(90deg,#ff8fbf,#ffc46b,#5ad2b0,#59b6f7);
+  transition:width .5s cubic-bezier(.34,1.4,.64,1)}
+
+/* ---------- 通用按钮 ---------- */
+.btn-main{border:none;cursor:pointer;font-family:inherit;font-weight:800;
+  font-size:clamp(14px,3.5vw,17px);color:#fff;padding:14px 40px;border-radius:999px;
+  background:linear-gradient(135deg,#8b5cf6,#ff6fa5);
+  box-shadow:0 12px 30px rgba(139,92,246,.38);transition:transform .16s,box-shadow .16s}
+.btn-main:hover{box-shadow:0 16px 36px rgba(139,92,246,.46)}
+.btn-main:active{transform:scale(.95)}
+.btn-sec{font-family:inherit;font-weight:800;font-size:13.5px;cursor:pointer;
+  border:2.5px solid #e6dfff;background:#fff;color:#7c5cf0;border-radius:999px;
+  padding:11px 24px;transition:.16s;box-shadow:0 6px 18px rgba(120,100,200,.10)}
+.btn-sec:hover{background:#f6f2ff;transform:translateY(-2px)}
+.btn-sec:active{transform:scale(.96)}
+.btn-sec.primary{background:linear-gradient(135deg,#8b5cf6,#ff6fa5);color:#fff;
+  border-color:transparent;box-shadow:0 10px 26px rgba(139,92,246,.35)}
+.btn-sec.small{padding:8px 18px;font-size:12.5px}
+.btn-sec:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none;background:#fff}
+
+/* ---------- 关卡通用 ---------- */
+.level-title{font-weight:800;font-size:clamp(14px,3.5vw,18px);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.level-title .tag{font-size:11px;font-weight:800;color:#fff;background:#8b5cf6;
+  border-radius:999px;padding:3px 10px;letter-spacing:.5px}
+.hint-bar{font-size:13px;color:#7c74a0;background:#f3f0ff;border-radius:12px;
+  padding:10px 14px;margin-bottom:14px;text-align:center;transition:.2s;font-weight:600}
+.hint-bar.ok{background:#e5fbef;color:#0f9d58}
+.hint-bar.bad{background:#ffeaea;color:#e04b4b}
+
+/* =========================================================
+   模块一：4 Seasons
+   ========================================================= */
+.s4-hero{text-align:center;padding:30px 20px 34px;background:rgba(255,255,255,.82);
+  border-radius:28px;box-shadow:0 20px 55px rgba(140,120,220,.16);border:1px solid #fff}
+.s4-hero h1{font-size:clamp(20px,5.4vw,31px);line-height:1.4;margin-bottom:14px}
+.s4-hero h1 em{font-style:normal;background:linear-gradient(90deg,#10b981,#0ea5e9,#8b5cf6);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.s4-hero .lead{color:var(--muted);font-size:clamp(12.5px,3vw,14.5px);
+  line-height:2;font-weight:600;margin-bottom:22px}
+.s4-hero-emoji{font-size:clamp(30px,8vw,44px);letter-spacing:10px;margin-bottom:26px;display:flex;
+  justify-content:center;gap:clamp(4px,2vw,14px)}
+.s4-hero-emoji span{display:inline-block;animation:bob 2s ease-in-out infinite}
+.s4-hero-emoji span:nth-child(2){animation-delay:.25s}
+.s4-hero-emoji span:nth-child(3){animation-delay:.5s}
+.s4-hero-emoji span:nth-child(4){animation-delay:.75s}
+
+/* 季节单词卡 */
+.season-word-card{border:none;font-family:inherit;cursor:pointer;display:block;width:100%;
+  border-radius:24px;padding:20px 18px;margin-bottom:16px;text-align:center;
+  background:linear-gradient(135deg,#eafaf3,#e8f4ff);
+  box-shadow:0 14px 34px rgba(16,185,129,.16);transition:.2s;
+  border:3px solid transparent}
+.season-word-card:hover{transform:translateY(-4px);box-shadow:0 20px 44px rgba(16,185,129,.24)}
+.season-word-card:active{transform:scale(.98)}
+.sw-en{font-size:clamp(24px,6.4vw,34px);font-weight:900;letter-spacing:1px;
+  background:linear-gradient(90deg,#10b981,#0ea5e9);-webkit-background-clip:text;
+  background-clip:text;color:transparent}
+.sw-cn{font-size:14px;font-weight:800;color:#4f967f;margin-top:4px}
+.sw-note{font-size:11.5px;color:#8fb8a9;font-weight:700;margin-top:6px}
+
+/* 学习卡网格 */
+.s4-learn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+@media(max-width:700px){.s4-learn-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+.learn-card{border:3px solid transparent;font-family:inherit;cursor:pointer;border-radius:22px;
+  padding:20px 8px 16px;background:#fff;text-align:center;
+  box-shadow:0 12px 30px rgba(120,100,200,.13);transition:.2s}
+.learn-card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(120,100,200,.22)}
+.learn-card:active{transform:scale(.97)}
+.learn-card .lc-emoji{font-size:clamp(34px,9vw,46px);line-height:1;margin-bottom:10px;display:block;
+  animation:bob 2.4s ease-in-out infinite}
+.learn-card .lc-en{display:block;font-weight:900;font-size:clamp(14px,3.6vw,18px);color:var(--ink)}
+.learn-card .lc-cn{display:block;font-size:12px;color:#9a93b5;font-weight:700;margin-top:3px}
+.learn-card .lc-alt{display:block;font-size:10.5px;color:#c0b8d8;font-weight:700;margin-top:2px;min-height:14px}
+.learn-card.speaking{border-color:var(--c,#8b5cf6);transform:translateY(-6px) scale(1.03)}
+
+/* 通用舞台 */
+.s4-stage{background:#fff;border-radius:26px;padding:26px 16px 22px;text-align:center;
+  box-shadow:0 18px 45px rgba(140,120,220,.16);margin-bottom:16px;position:relative}
+.s4-scene{font-size:clamp(46px,13vw,80px);line-height:1.25;
+  animation:bob 2.2s ease-in-out infinite;letter-spacing:4px}
+.s4-q-cn{font-size:14px;font-weight:800;color:#9a93b5;margin-top:8px}
+.s4-reveal{margin-top:14px;min-height:34px;font-weight:900;
+  font-size:clamp(18px,4.6vw,24px);color:#0f9d58;
+  animation:popIn .45s cubic-bezier(.34,1.56,.64,1)}
+.s4-reveal .rev-cn{font-size:12.5px;color:#9a93b5;font-weight:700;margin-left:8px}
+
+/* 选项 */
+.s4-options{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;max-width:540px;margin:0 auto 14px}
+@media(max-width:480px){.s4-options{grid-template-columns:1fr}}
+.s4-opt{font-family:inherit;cursor:pointer;border-radius:18px;padding:18px 12px;
+  background:#fff;border:3px solid #efeaff;color:var(--ink);
+  font-weight:900;font-size:clamp(15px,4vw,19px);transition:.16s;
+  box-shadow:0 6px 18px rgba(120,100,200,.10)}
+.s4-opt:hover{transform:translateY(-3px);border-color:#d8caff;background:#faf8ff}
+.s4-opt:active{transform:scale(.96)}
+.s4-opt.correct{background:#e7fbf0;border-color:#4cd08a;color:#0b8a4b;
+  animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+.s4-opt.wrong{background:#ffeded;border-color:#ff7b7b;color:#d43b3b;animation:shake .45s}
+.s4-opt.dim{opacity:.35;pointer-events:none}
+
+/* 季节选项卡（听音用） */
+.s4-card-opt{font-family:inherit;cursor:pointer;border-radius:20px;padding:16px 8px 13px;
+  background:#fff;border:3px solid #efeaff;display:flex;flex-direction:column;
+  align-items:center;gap:4px;transition:.16s;box-shadow:0 6px 18px rgba(120,100,200,.10)}
+.s4-card-opt:hover{transform:translateY(-4px);border-color:#d8caff}
+.s4-card-opt:active{transform:scale(.96)}
+.s4-card-opt .co-emoji{font-size:clamp(28px,7vw,36px);line-height:1}
+.s4-card-opt .co-en{font-weight:900;font-size:clamp(13px,3.4vw,16px)}
+.s4-card-opt .co-cn{font-size:11px;color:#9a93b5;font-weight:700}
+.s4-card-opt.correct{background:#e7fbf0;border-color:#4cd08a;animation:popIn .4s}
+.s4-card-opt.correct .co-en{color:#0b8a4b}
+.s4-card-opt.wrong{background:#ffeded;border-color:#ff7b7b;animation:shake .45s}
+.s4-card-opt.dim{opacity:.35;pointer-events:none}
+
+/* 喇叭按钮 */
+.s4-speaker{width:clamp(88px,22vw,112px);height:clamp(88px,22vw,112px);border-radius:50%;
+  border:none;cursor:pointer;font-size:clamp(38px,10vw,50px);
+  background:linear-gradient(135deg,#0ea5e9,#8b5cf6);color:#fff;
+  box-shadow:0 14px 36px rgba(14,165,233,.4);transition:transform .18s;
+  animation:partyPulse 1.8s ease-in-out infinite}
+.s4-speaker:hover{transform:scale(1.06)}
+.s4-speaker:active{transform:scale(.92)}
+@keyframes partyPulse{0%,100%{box-shadow:0 14px 36px rgba(14,165,233,.4)}
+  50%{box-shadow:0 20px 48px rgba(139,92,246,.52)}}
+.s4-listen-tip{font-size:12.5px;font-weight:700;color:#a79fd0;margin-top:14px}
+
+/* =========================================================
+   配对游戏（中英文匹配）
+   ========================================================= */
+.s4-match-block{margin-bottom:16px}
+.s4-match-block:last-child{margin-bottom:0}
+.s4-match-label{font-size:11.5px;font-weight:800;color:#a79fd0;
+  letter-spacing:2px;text-align:center;margin-bottom:9px}
+.s4-match-seasons,.s4-match-items{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:640px){
+  .s4-match-seasons,.s4-match-items{grid-template-columns:repeat(4,1fr)}
+}
+.match-pair{font-family:inherit;cursor:pointer;border:3px solid #efeaff;background:#fff;
+  border-radius:18px;padding:22px 8px;font-weight:900;
+  font-size:clamp(15px,3.8vw,19px);color:#5a5280;
+  box-shadow:0 6px 16px rgba(120,100,200,.10);
+  transition:transform .18s,border-color .18s,box-shadow .18s,background .18s;
+  text-align:center;line-height:1.2}
+.match-pair:hover{transform:translateY(-3px);border-color:#d8caff;background:#faf8ff}
+.match-pair:active{transform:scale(.96)}
+.match-pair.selected{border-color:#8b5cf6;background:#f7f3ff;color:#7c5cf0;
+  box-shadow:0 0 0 4px rgba(139,92,246,.2);transform:translateY(-3px) scale(1.04)}
+.match-pair.done{border-color:#4cd08a;background:#e7fbf0;color:#0b8a4b;
+  cursor:default;pointer-events:none;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+.match-pair.wrong{animation:shake .45s;border-color:#ff7b7b;background:#ffeded;color:#d43b3b}
+
+/* 题目导航 & 关卡导航 */
+.s4-qnav,.s4-gnav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.s4-qnav{margin-bottom:12px}
+
+/* 步骤提示 */
+.s4-step{text-align:center;font-weight:800;font-size:12px;color:#a79fd0;
+  letter-spacing:1.5px;margin-bottom:10px}
+.s4-hint{text-align:center;font-size:13.5px;font-weight:700;padding:11px 16px;
+  border-radius:14px;background:#f3f0ff;color:#7c74a0;transition:.2s;min-height:46px;
+  display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.s4-hint.ok{background:#e5fbef;color:#0f9d58}
+.s4-hint.bad{background:#ffeaea;color:#e04b4b}
+.s4-next-row{display:flex;justify-content:center;min-height:8px}
+
+/* =========================================================
+   模块二：Chinese Festival
+   ========================================================= */
+.start{text-align:center;padding:34px 20px 38px;background:rgba(255,255,255,.78);
+  border-radius:28px;box-shadow:0 20px 55px rgba(140,120,220,.16);
+  backdrop-filter:blur(10px);border:1px solid #fff}
+.start h1{font-size:clamp(20px,5.4vw,32px);line-height:1.35;margin-bottom:12px;letter-spacing:.5px}
+.start h1 em{font-style:normal;background:linear-gradient(90deg,#ff6fa5,#8b5cf6,#38bdf8);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.start .sub{color:var(--muted);font-size:clamp(12.5px,3vw,14.5px);margin-bottom:22px;line-height:2;font-weight:600}
+.emoji-row{font-size:clamp(26px,7.5vw,42px);margin-bottom:26px;display:flex;justify-content:center;gap:clamp(8px,4vw,22px)}
+.emoji-row span{display:inline-block;animation:bob 2s ease-in-out infinite}
+.emoji-row span:nth-child(2){animation-delay:.22s}
+.emoji-row span:nth-child(3){animation-delay:.44s}
+.emoji-row span:nth-child(4){animation-delay:.66s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.seasons{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:760px){.seasons{grid-template-columns:repeat(2,1fr);gap:10px}}
+.season{border-radius:var(--radius);padding:11px 9px;border:2.5px dashed #ddd6f3;
+  min-height:172px;cursor:pointer;display:flex;flex-direction:column;
+  transition:transform .18s,box-shadow .18s,border-color .18s,background .18s}
+.season:hover{transform:translateY(-3px)}
+.s-head{display:flex;align-items:center;gap:5px;font-weight:800;
+  font-size:clamp(12px,2.9vw,15px);margin-bottom:8px;justify-content:center}
+.s-head .s-emoji{font-size:clamp(16px,4.2vw,22px)}
+.s-head small{font-size:10.5px;color:#9a93b5;font-weight:700}
+.dropzone{flex:1;display:flex;flex-direction:column;gap:6px;justify-content:center}
+.season[data-season=spring]{background:linear-gradient(165deg,#fff6fb,#ffe6f2);border-color:#ffc4de}
+.season[data-season=summer]{background:linear-gradient(165deg,#fffbf0,#fff0cf);border-color:#ffdc94}
+.season[data-season=autumn]{background:linear-gradient(165deg,#fff7f0,#ffe6d5);border-color:#ffc59c}
+.season[data-season=winter]{background:linear-gradient(165deg,#f4fbff,#e2f1fd);border-color:#a9d8f5}
+.season.wrong{animation:shake .45s;border-color:#ff5c5c!important;background:#ffecec!important}
+
+.card{display:flex;align-items:center;gap:7px;background:#fff;border:2px solid #efeaff;
+  border-radius:14px;padding:9px 11px;cursor:pointer;font-family:inherit;text-align:left;
+  width:100%;box-shadow:0 4px 12px rgba(120,100,200,.10);
+  transition:transform .16s,box-shadow .16s,border-color .16s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(120,100,200,.18)}
+.card.selected{border-color:#8b5cf6;transform:translateY(-3px) scale(1.03);
+  box-shadow:0 0 0 3px rgba(139,92,246,.22),0 10px 24px rgba(139,92,246,.28)}
+.card .c-emoji{font-size:clamp(16px,4.2vw,20px);flex:none}
+.card .c-en{display:block;font-weight:800;font-size:clamp(11px,2.7vw,13.5px);line-height:1.25}
+.card .c-cn{display:block;font-size:10.5px;color:#9a93b5;font-weight:700;margin-top:1px}
+.card.placed{cursor:default;animation:popIn .42s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 3px 10px rgba(120,100,200,.13)}
+.card.placed .c-emoji{font-size:15px}
+.card:disabled{opacity:1}
+.card.wrong{animation:shake .45s;border-color:#ff5c5c;background:#fff0f0}
+
+@keyframes popIn{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+
+.pool-wrap{background:rgba(255,255,255,.72);border-radius:22px;padding:14px;
+  border:2px dashed #e3dcf7}
+.pool-label{font-size:11.5px;font-weight:800;color:#a79fd0;margin-bottom:10px;
+  text-align:center;letter-spacing:1.5px}
+.pool{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:9px}
+.pool:empty::after{content:"全部完成啦 🎉";display:block;text-align:center;
+  color:#a79fd0;font-weight:700;font-size:13px;padding:14px 0;grid-column:1/-1}
+.cf-next-row{display:flex;justify-content:center;margin-top:18px}
+
+.quiz-card{background:#fff;border-radius:24px;padding:28px 20px 26px;
+  box-shadow:0 18px 45px rgba(140,120,220,.16);text-align:center}
+.quiz-num{font-size:12px;font-weight:800;color:#a79fd0;letter-spacing:2px;margin-bottom:16px}
+.quiz-sentence{font-size:clamp(16px,4.4vw,23px);font-weight:800;line-height:1.7;
+  margin-bottom:12px;min-height:76px;display:flex;align-items:center;
+  justify-content:center;flex-wrap:wrap;gap:4px}
+.blank{color:#8b5cf6;border-bottom:3px solid #c9b8ff;padding:0 8px;border-radius:5px;
+  background:#f7f3ff;transition:.3s}
+.blank.filled{color:#0f9d58;border-color:#9be3bd;background:#eafbf2}
+.quiz-hint{font-size:13px;color:#9a93b5;margin-bottom:22px;min-height:20px;font-weight:600}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;max-width:540px;margin:0 auto}
+@media(max-width:480px){.options{grid-template-columns:1fr}}
+.opt{font-family:inherit;font-weight:800;font-size:clamp(13px,3.2vw,15.5px);
+  padding:15px 12px;border-radius:16px;cursor:pointer;background:#f7f5ff;
+  border:2.5px solid #ece6ff;color:var(--ink);transition:.16s}
+.opt:hover{background:#efe9ff;border-color:#d8caff;transform:translateY(-2px)}
+.opt.correct{background:#e7fbf0;border-color:#4cd08a;color:#0b8a4b;animation:popIn .35s}
+.opt.wrong{background:#ffeded;border-color:#ff7b7b;color:#d43b3b;animation:shake .4s}
+
+/* ---------- 结算 ---------- */
+.result{text-align:center;padding:38px 22px 42px;background:rgba(255,255,255,.82);
+  border-radius:28px;box-shadow:0 20px 55px rgba(140,120,220,.18);border:1px solid #fff}
+.result-emoji{font-size:64px;margin-bottom:8px;animation:bob 1.8s ease-in-out infinite}
+.result h2{font-size:clamp(20px,5vw,28px);margin-bottom:14px}
+.result-score{font-size:clamp(38px,10vw,54px);font-weight:900;line-height:1;
+  background:linear-gradient(135deg,#ff6fa5,#8b5cf6);-webkit-background-clip:text;
+  background-clip:text;color:transparent;margin-bottom:6px}
+.result-score small{font-size:16px;color:var(--muted);-webkit-text-fill-color:var(--muted)}
+.stars{font-size:34px;letter-spacing:6px;margin-bottom:16px}
+.summary{color:var(--muted);font-size:14px;line-height:2;margin-bottom:26px;font-weight:600}
+
+/* =========================================================
+   模块三：What do you do?
+   ========================================================= */
+.wd-intro{text-align:center;padding:30px 20px 34px;background:rgba(255,255,255,.82);
+  border-radius:28px;box-shadow:0 20px 55px rgba(140,120,220,.16);border:1px solid #fff}
+.wd-intro h1{font-size:clamp(20px,5.4vw,30px);line-height:1.4;margin-bottom:14px}
+.wd-intro h1 em{font-style:normal;background:linear-gradient(90deg,#0ea5e9,#8b5cf6);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.wd-intro .lead{color:var(--muted);font-size:clamp(12.5px,3vw,14.5px);
+  line-height:2;font-weight:600;margin-bottom:20px}
+.wd-roles-preview{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-bottom:26px}
+.wd-roles-preview span{font-size:clamp(26px,7vw,36px);display:inline-block;
+  animation:bob 2.2s ease-in-out infinite}
+.wd-roles-preview span:nth-child(2){animation-delay:.2s}
+.wd-roles-preview span:nth-child(3){animation-delay:.4s}
+.wd-roles-preview span:nth-child(4){animation-delay:.6s}
+.wd-roles-preview span:nth-child(5){animation-delay:.8s}
+.wd-roles-preview span:nth-child(6){animation-delay:1s}
+.wd-dots{display:flex;justify-content:center;gap:7px;margin-bottom:14px;flex-wrap:wrap}
+.wd-dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  font-size:14px;background:#fff;color:#b8b0d4;font-weight:800;
+  box-shadow:0 3px 10px rgba(120,100,200,.12);transition:.3s;border:2px solid transparent}
+.wd-dot.done{background:#e5fbef;border-color:#9be3bd;font-size:15px}
+.wd-dot.active{background:linear-gradient(135deg,#8b5cf6,#ff6fa5);color:#fff;
+  transform:scale(1.18);box-shadow:0 6px 18px rgba(139,92,246,.4);border-color:transparent}
+.stage{position:relative;border-radius:26px;padding:16px 16px 18px;
+  min-height:340px;display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-start;gap:14px;overflow:hidden;
+  background:linear-gradient(160deg,#fff6fb,#ffe0ee);
+  box-shadow:0 18px 45px rgba(140,120,220,.16);transition:background .6s;
+  border:1px solid #fff;margin-bottom:16px}
+.stage.spring{background:linear-gradient(160deg,#fff6fb,#ffe0ee)}
+.stage.summer{background:linear-gradient(160deg,#fffcf0,#ffefc4)}
+.stage.autumn{background:linear-gradient(160deg,#fff8f2,#ffe3cc)}
+.stage.winter{background:linear-gradient(160deg,#f5fbff,#dceffb)}
+.stage.party{background:linear-gradient(160deg,#f0fff8,#d5f7e6)}
+.stage::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 24%, rgba(255,255,255,.75), transparent 68%);
+  pointer-events:none}
+.stage-season{position:absolute;top:12px;left:16px;font-weight:800;font-size:12px;
+  color:#a79fd0;letter-spacing:1px;z-index:2;background:rgba(255,255,255,.65);
+  padding:3px 10px;border-radius:999px}
+.sam-row{display:flex;align-items:flex-end;gap:10px;z-index:2;margin-top:8px;
+  animation:bubbleIn .4s cubic-bezier(.34,1.4,.64,1)}
+.sam-avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
+  font-size:26px;background:#fff;box-shadow:0 6px 16px rgba(120,100,200,.2);
+  border:3px solid #8b5cf6;flex:none}
+.sam-bubble{background:#fff;border-radius:18px 18px 18px 4px;padding:12px 18px;
+  box-shadow:0 8px 22px rgba(120,100,200,.14);max-width:340px}
+.sam-bubble .q-en{font-weight:800;font-size:clamp(14px,3.7vw,17.5px);color:#2c2743;line-height:1.45}
+.sam-bubble .q-cn{font-size:12px;color:#9a93b5;margin-top:3px;font-weight:600}
+.actor-spot{min-height:180px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:8px;z-index:2;width:100%}
+.actor{display:flex;flex-direction:column;align-items:center;gap:7px;
+  animation:actorIn .55s cubic-bezier(.34,1.56,.64,1)}
+.actor-emoji{font-size:58px;line-height:1;filter:drop-shadow(0 8px 14px rgba(0,0,0,.13));
+  animation:actorBounce 1.1s ease-in-out infinite}
+.actor-name{font-weight:800;font-size:13px;color:#fff;padding:3px 15px;border-radius:999px;
+  background:var(--c,#8b5cf6);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.actor-answer{background:#fff;border-radius:16px;padding:10px 18px;max-width:360px;
+  box-shadow:0 8px 22px rgba(120,100,200,.16);border-left:4px solid var(--c,#8b5cf6);
+  animation:bubbleIn .45s .18s both}
+.actor-answer .a-en{font-weight:800;font-size:clamp(13px,3.3vw,15.5px);line-height:1.5}
+.actor-answer .a-cn{font-size:11.5px;color:#9a93b5;margin-top:3px;font-weight:600}
+@keyframes actorIn{0%{opacity:0;transform:scale(.4) translateY(30px)}
+  60%{opacity:1;transform:scale(1.12) translateY(-6px)}
+  100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes actorBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes bubbleIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+.role-options{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:600px){.role-options{grid-template-columns:repeat(2,1fr)}}
+.role-card{font-family:inherit;cursor:pointer;border:2.5px solid #ece6ff;
+  background:#fff;border-radius:18px;padding:14px 8px 12px;display:flex;
+  flex-direction:column;align-items:center;gap:5px;transition:.18s;
+  box-shadow:0 6px 16px rgba(120,100,200,.10)}
+.role-card:hover{transform:translateY(-4px);border-color:#d8caff;
+  box-shadow:0 12px 26px rgba(120,100,200,.2)}
+.role-card:active{transform:scale(.96)}
+.role-card .rc-emoji{font-size:34px;line-height:1;transition:.2s}
+.role-card .rc-name{font-weight:800;font-size:12.5px;color:#5a5280}
+.role-card.correct{border-color:#4cd08a;background:#e7fbf0;
+  animation:cardCorrect .6s cubic-bezier(.34,1.56,.64,1)}
+.role-card.correct .rc-emoji{animation:actorBounce .55s ease-in-out 2}
+.role-card.wrong{border-color:#ff7b7b;background:#ffeded;animation:shake .45s}
+.role-card.dim{opacity:.35;pointer-events:none;transform:scale(.94)}
+@keyframes cardCorrect{0%{transform:scale(1)}40%{transform:scale(1.18)}
+  70%{transform:scale(.96)}100%{transform:scale(1)}}
+.wd-hint{text-align:center;font-size:13.5px;font-weight:700;padding:11px 16px;
+  border-radius:14px;background:#f3f0ff;color:#7c74a0;transition:.2s;min-height:46px;
+  display:flex;align-items:center;justify-content:center}
+.wd-hint.ok{background:#e5fbef;color:#0f9d58}
+.wd-hint.bad{background:#ffeaea;color:#e04b4b}
+.wd-next-row{display:flex;justify-content:center;margin-top:12px;min-height:8px}
+.role-options.party-mode{grid-template-columns:1fr}
+.party-btn{font-family:inherit;cursor:pointer;border:none;border-radius:22px;
+  padding:22px 20px;font-weight:900;font-size:clamp(17px,4.6vw,22px);color:#fff;
+  background:linear-gradient(135deg,#10b981,#22d3ee,#8b5cf6);
+  box-shadow:0 14px 36px rgba(16,185,129,.38);transition:transform .18s;
+  animation:partyPulse 1.6s ease-in-out infinite}
+.party-btn:hover{transform:scale(1.03)}
+.party-btn:active{transform:scale(.97)}
+.party-crowd{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;
+  z-index:2;padding:4px 0}
+.party-crowd .pc{font-size:clamp(30px,8vw,42px);display:inline-block;
+  animation:bob 1.4s ease-in-out infinite}
+.party-crowd .pc:nth-child(2){animation-delay:.12s}
+.party-crowd .pc:nth-child(3){animation-delay:.24s}
+.party-crowd .pc:nth-child(4){animation-delay:.36s}
+.party-crowd .pc:nth-child(5){animation-delay:.48s}
+.party-crowd .pc:nth-child(6){animation-delay:.6s}
+
+/* ---------- 彩带 & 飘字 ---------- */
+.confetti{position:fixed;width:10px;height:16px;top:-24px;z-index:998;
+  pointer-events:none;animation:confettiFall linear forwards}
+@keyframes confettiFall{
+  0%{transform:translateY(0) rotate(0);opacity:1}
+  100%{transform:translateY(108vh) rotate(760deg);opacity:0}
+}
+.float-text{position:fixed;transform:translate(-50%,-50%);font-weight:900;font-size:22px;
+  pointer-events:none;z-index:999;text-shadow:0 2px 10px rgba(255,255,255,.95);
+  animation:floatUp 1s ease-out forwards}
+@keyframes floatUp{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}
+  30%{opacity:1;transform:translate(-50%,-75%) scale(1.15)}
+  100%{opacity:0;transform:translate(-50%,-170%) scale(1)}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ==================== 首页 ==================== -->
+  <section class="screen active" id="home">
+    <div class="home-hero">
+      <h1>🌸 <em>四季英语乐园</em> ❄️</h1>
+      <p class="lead">Seasons · Festivals · Fun<br>按顺序学习效果更好哦</p>
+      <div class="module-grid">
+        <button class="module-card" data-open="s4">
+          <div class="mc-emoji">🌸☀️🍁❄️</div>
+          <h2>4 Seasons</h2>
+          <p class="mc-desc">认识四季单词<br>三款小游戏 · 自由选择</p>
+          <span class="mc-go">进入模块 ▶</span>
+        </button>
+        <button class="module-card" data-open="cf">
+          <div class="mc-emoji">🧨🥮🎁</div>
+          <h2>Chinese Festival</h2>
+          <p class="mc-desc">四季 · 传统节日 · 美食<br>单词分类 + 句型填空</p>
+          <span class="mc-go">进入模块 ▶</span>
+        </button>
+        <button class="module-card" data-open="wd">
+          <div class="mc-emoji">🐒🐟🐰🐻</div>
+          <h2>What do you do?</h2>
+          <p class="mc-desc">Sam 四季采访秀<br>选出正确的小动物</p>
+          <span class="mc-go">进入模块 ▶</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 模块一 4 Seasons ==================== -->
+  <section class="screen" id="moduleS4">
+    <div class="mod-bar">
+      <button class="home-btn" data-home>🏠 Home</button>
+      <div class="mod-title">4 Seasons · 认识四季</div>
+      <div class="hud-right">
+        <div class="pill">⭐ <b id="s4Score">0</b></div>
+        <button class="icon-btn sound-btn">🔊</button>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="s4Progress"></div></div>
+
+    <!-- 开始页 -->
+    <div class="s4-panel active" id="s4-start">
+      <div class="s4-hero">
+        <h1>🌸 <em>一年有四个季节</em> ❄️</h1>
+        <p class="lead">
+          先认识一个新单词：<b style="color:#10b981">Season</b>（季节）<br>
+          然后我们一起去看看四个季节！
+        </p>
+        <div class="s4-hero-emoji"><span>🌸</span><span>☀️</span><span>🍁</span><span>❄️</span></div>
+        <button class="btn-main" id="s4BtnStart">出发认识四季 ▶</button>
+      </div>
+    </div>
+
+    <!-- 学习页 -->
+    <div class="s4-panel" id="s4-learn">
+      <div class="level-title"><span class="tag">热身</span>点一点，听一听</div>
+      <button class="season-word-card" id="s4SeasonWord">
+        <div class="sw-en">Season</div>
+        <div class="sw-cn">季节</div>
+        <div class="sw-note">Four seasons in a year · 一年有四季</div>
+      </button>
+      <div class="s4-learn-grid" id="s4LearnGrid"></div>
+      <div class="s4-hint" id="s4LearnHint">👆 点每张卡片，跟着读一读吧</div>
+      <div class="s4-next-row">
+        <button class="btn-sec primary" id="s4BtnToQ1">开始游戏 ▶</button>
+      </div>
+    </div>
+
+    <!-- 游戏一：看图选单词 -->
+    <div class="s4-panel" id="s4-q1">
+      <div class="s4-step" id="s4Q1Step">游戏一 · 看图选单词  1 / 4</div>
+      <div class="s4-stage">
+        <div class="s4-scene" id="s4Q1Scene">🌸</div>
+        <div class="s4-q-cn" id="s4Q1Cn"></div>
+        <div class="s4-reveal" id="s4Q1Reveal"></div>
+      </div>
+      <div class="s4-options" id="s4Q1Options"></div>
+      <div class="s4-hint" id="s4Q1Hint">这个季节是哪个单词呢？</div>
+      <div class="s4-qnav">
+        <button class="btn-sec small" id="s4Q1Prev">◀ 上一题</button>
+        <button class="btn-sec small" id="s4Q1NextQ">下一题 ▶</button>
+      </div>
+      <div class="s4-gnav">
+        <button class="btn-sec" id="s4Q1PrevLv">◀ 上一关</button>
+        <button class="btn-sec primary" id="s4Q1NextLv">下一关 ▶</button>
+      </div>
+    </div>
+
+    <!-- 游戏二：听音选季节 -->
+    <div class="s4-panel" id="s4-q2">
+      <div class="s4-step" id="s4Q2Step">游戏二 · 听音选季节  1 / 4</div>
+      <div class="s4-stage">
+        <button class="s4-speaker" id="s4SpeakBtn">🔊</button>
+        <div class="s4-listen-tip">👆 点喇叭再听一次</div>
+      </div>
+      <div class="s4-options" id="s4Q2Options"></div>
+      <div class="s4-hint" id="s4Q2Hint">听一听，是哪个季节？</div>
+      <div class="s4-qnav">
+        <button class="btn-sec small" id="s4Q2Prev">◀ 上一题</button>
+        <button class="btn-sec small" id="s4Q2NextQ">下一题 ▶</button>
+      </div>
+      <div class="s4-gnav">
+        <button class="btn-sec" id="s4Q2PrevLv">◀ 上一关</button>
+        <button class="btn-sec primary" id="s4Q2NextLv">下一关 ▶</button>
+      </div>
+    </div>
+
+    <!-- 游戏三：中英配对 -->
+    <div class="s4-panel" id="s4-q3">
+      <div class="s4-step" id="s4Q3Step">游戏三 · 中英配对  配对 0 / 4</div>
+      <div class="s4-stage">
+        <div class="s4-match-block">
+          <div class="s4-match-label">E N G L I S H</div>
+          <div class="s4-match-seasons" id="s4MatchSeasons"></div>
+        </div>
+        <div class="s4-match-block">
+          <div class="s4-match-label">中 文</div>
+          <div class="s4-match-items" id="s4MatchItems"></div>
+        </div>
+      </div>
+      <div class="s4-hint" id="s4Q3Hint">先点一张英文卡，再点它对应的中文卡</div>
+      <div class="s4-gnav">
+        <button class="btn-sec" id="s4Q3PrevLv">◀ 上一关</button>
+        <button class="btn-sec primary" id="s4Q3NextLv">下一关 ▶</button>
+      </div>
+    </div>
+
+    <!-- 结算 -->
+    <div class="s4-panel" id="s4-end">
+      <div class="result">
+        <div class="result-emoji" id="s4EndEmoji">🏆</div>
+        <h2 id="s4EndTitle">四季小达人！</h2>
+        <div class="result-score"><span id="s4FinalScore">0</span><small> 分</small></div>
+        <div class="stars" id="s4Stars"></div>
+        <div class="summary" id="s4Summary"></div>
+        <button class="btn-main" id="s4BtnRestart">再玩一次 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 模块二 Chinese Festival ==================== -->
+  <section class="screen" id="moduleCF">
+    <div class="mod-bar">
+      <button class="home-btn" data-home>🏠 Home</button>
+      <div class="mod-title">Chinese Festival</div>
+      <div class="hud-right">
+        <div class="pill">⭐ <b id="score">0</b></div>
+        <button class="icon-btn sound-btn">🔊</button>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
+
+    <div class="cf-panel active" id="cf-start">
+      <div class="start">
+        <h1>把 <em>节日和美食</em><br>送回正确的季节！</h1>
+        <p class="sub">
+          重点词汇：Spring / Summer / Autumn / Winter<br>
+          重点句型：In spring, we have Chinese Spring Festival.<br>
+          We have spring rolls to eat.
+        </p>
+        <div class="emoji-row"><span>🌸</span><span>☀️</span><span>🍁</span><span>❄️</span></div>
+        <button class="btn-main" id="btnStart">开始挑战 ▶</button>
+      </div>
+    </div>
+
+    <div class="cf-panel" id="cf-level1">
+      <div class="level-title"><span class="tag">第一关</span>送它们回季节的家</div>
+      <div class="hint-bar" id="hintBar">先点一张卡片，再点它所在的季节 👇</div>
+      <div class="seasons" id="seasons"></div>
+      <div class="pool-wrap">
+        <div class="pool-label">待 分 类 卡 片</div>
+        <div class="pool" id="pool"></div>
+      </div>
+      <div class="cf-next-row">
+        <button class="btn-sec primary" id="btnNextLevel1">下一关 ▶</button>
+      </div>
+    </div>
+
+    <div class="cf-panel" id="cf-level2">
+      <div class="level-title"><span class="tag">第二关</span>补全句子</div>
+      <div class="quiz-card">
+        <div class="quiz-num" id="quizNum">1 / 8</div>
+        <div class="quiz-sentence" id="quizSentence"></div>
+        <div class="quiz-hint" id="quizHint"></div>
+        <div class="options" id="options"></div>
+      </div>
+    </div>
+
+    <div class="cf-panel" id="cf-end">
+      <div class="result">
+        <div class="result-emoji" id="resultEmoji">🏆</div>
+        <h2 id="resultTitle">挑战完成！</h2>
+        <div class="result-score"><span id="finalScore">0</span><small> 分</small></div>
+        <div class="stars" id="stars"></div>
+        <div class="summary" id="summary"></div>
+        <button class="btn-main" id="btnRestart">再玩一次 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 模块三 What do you do? ==================== -->
+  <section class="screen" id="moduleWD">
+    <div class="mod-bar">
+      <button class="home-btn" data-home>🏠 Home</button>
+      <div class="mod-title">What do you do?</div>
+      <div class="hud-right">
+        <div class="pill">⭐ <b id="wdScore">0</b></div>
+        <button class="icon-btn sound-btn">🔊</button>
+      </div>
+    </div>
+
+    <div class="wd-panel active" id="wd-start">
+      <div class="wd-intro">
+        <h1>🎤 <em>Sam 的四季采访秀</em></h1>
+        <p class="lead">
+          每个季节，Sam 都会问同一个问题：<br>
+          <b style="color:#8b5cf6">What do you do in ___?</b><br>
+          听一听，选出正在回答的小动物！
+        </p>
+        <div class="wd-roles-preview">
+          <span>🧑</span><span>🐒</span><span>🐦</span><span>🐟</span><span>🐷</span><span>🐰</span><span>🐻</span>
+        </div>
+        <button class="btn-main" id="wdBtnStart">开始采访 ▶</button>
+      </div>
+    </div>
+
+    <div class="wd-panel" id="wd-game">
+      <div class="wd-dots" id="wdDots"></div>
+      <div class="stage spring" id="stage">
+        <div class="stage-season" id="stageSeason"></div>
+        <div class="sam-row">
+          <div class="sam-avatar">🧑</div>
+          <div class="sam-bubble" id="samBubble"></div>
+        </div>
+        <div class="actor-spot" id="actorSpot"></div>
+      </div>
+      <div class="role-options" id="roleOptions"></div>
+      <div class="wd-hint" id="wdHint">听一听，是谁在回答？</div>
+      <div class="wd-next-row" id="wdNextRow"></div>
+    </div>
+
+    <div class="wd-panel" id="wd-end">
+      <div class="result">
+        <div class="result-emoji" id="wdResultEmoji">🏆</div>
+        <h2 id="wdResultTitle">采访结束！</h2>
+        <div class="result-score"><span id="wdFinalScore">0</span><small> 分</small></div>
+        <div class="stars" id="wdStars"></div>
+        <div class="summary" id="wdSummary"></div>
+        <button class="btn-main" id="wdBtnRestart">再玩一次 🔄</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* =========================================================
+   全局状态
+   ========================================================= */
+const state = {
+  selected:null, placed:0, quizIndex:0, score:0,
+  doneSteps:0, totalSteps:16, locked:false,
+  soundOn:true,
+};
+const game = { roundIndex:0, score:0, locked:false };
+let cfAutoTimer = null;
+
+/* 模块一 4 Seasons 状态 */
+const s4 = {
+  score:0, doneSteps:0, totalSteps:12, locked:false,
+  q1Order:[], q1Index:0, q1Done:new Set(),
+  q2Order:[], q2Index:0, q2Done:new Set(),
+  matchCnOrder:[], matchPlaced:new Set(), matchSel:null,
+};
+
+/* =========================================================
+   工具函数
+   ========================================================= */
+const $ = id => document.getElementById(id);
+const shuffle = a => { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+
+function speak(text){
+  if(!state.soundOn || !('speechSynthesis' in window)) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang='en-US'; u.rate=0.82; u.pitch=1.05;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+function floatText(x,y,txt,color){
+  const d = document.createElement('div');
+  d.className='float-text'; d.textContent=txt;
+  d.style.left=x+'px'; d.style.top=y+'px';
+  if(color) d.style.color=color;
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),1000);
+}
+
+function addScore(n){ state.score = Math.max(0, state.score + n); $('score').textContent = state.score; }
+function wdAddScore(n){ game.score = Math.max(0, game.score + n); $('wdScore').textContent = game.score; }
+function s4AddScore(n){ s4.score = Math.max(0, s4.score + n); $('s4Score').textContent = s4.score; }
+
+function updateProgress(){ $('progressBar').style.width = (state.doneSteps/state.totalSteps*100)+'%'; }
+function s4UpdateProgress(){ $('s4Progress').style.width = (s4.doneSteps/s4.totalSteps*100)+'%'; }
+function s4RefreshDoneSteps(){
+  s4.doneSteps = s4.q1Done.size + s4.q2Done.size + s4.matchPlaced.size;
+  s4UpdateProgress();
+}
+
+function setHint(txt, cls){
+  const h = $('hintBar'); h.textContent = txt;
+  h.className = 'hint-bar' + (cls ? ' '+cls : '');
+}
+function setWdHint(txt, cls){
+  const h = $('wdHint'); h.textContent = txt;
+  h.className = 'wd-hint' + (cls ? ' '+cls : '');
+}
+function setS4Hint(id, txt, cls){
+  const h = $(id); h.textContent = txt;
+  h.className = 's4-hint' + (cls ? ' '+cls : '');
+}
+
+function showTop(id){
+  document.querySelectorAll('.app > .screen').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showCF(id){
+  document.querySelectorAll('.cf-panel').forEach(p=>p.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showWD(id){
+  document.querySelectorAll('.wd-panel').forEach(p=>p.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showS4(id){
+  document.querySelectorAll('.s4-panel').forEach(p=>p.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function updateSoundBtns(){
+  document.querySelectorAll('.sound-btn').forEach(b=>{
+    b.textContent = state.soundOn ? '🔊' : '🔇';
+  });
+}
+
+/* =========================================================
+   模块一：4 Seasons 数据
+   ========================================================= */
+const SEASON_DATA = [
+  { key:'spring', en:'Spring', cn:'春天', emoji:'🌸', scene:'🌸🦋🌱',
+    color:'#ff6fa5', alt:'' },
+  { key:'summer', en:'Summer', cn:'夏天', emoji:'☀️', scene:'☀️🏖️🍉',
+    color:'#f59e0b', alt:'' },
+  { key:'autumn', en:'Autumn', cn:'秋天', emoji:'🍁', scene:'🍁🍂🌰',
+    color:'#f97316', alt:'Fall' },
+  { key:'winter', en:'Winter', cn:'冬天', emoji:'❄️', scene:'❄️⛄🧤',
+    color:'#2fa8f0', alt:'' },
+];
+
+/* =========================================================
+   模块一：学习页
+   ========================================================= */
+function s4BuildLearn(){
+  const grid = $('s4LearnGrid');
+  grid.innerHTML = '';
+  SEASON_DATA.forEach(s=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'learn-card';
+    b.style.setProperty('--c', s.color);
+    b.innerHTML =
+      `<span class="lc-emoji">${s.emoji}</span>` +
+      `<span class="lc-en">${s.en}</span>` +
+      `<span class="lc-cn">${s.cn}</span>` +
+      `<span class="lc-alt">${s.alt ? '/ '+s.alt : ''}</span>`;
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('.learn-card').forEach(c=>c.classList.remove('speaking'));
+      b.classList.add('speaking');
+      setTimeout(()=>b.classList.remove('speaking'), 900);
+      speak(s.en);
+      setS4Hint('s4LearnHint', `🔊 ${s.en} · ${s.cn}${s.alt ? '（也写作 '+s.alt+'）' : ''}`, 'ok');
+    });
+    grid.appendChild(b);
+  });
+}
+
+/* =========================================================
+   模块一：游戏一 看图选单词
+   ========================================================= */
+function s4StartQ1(){
+  if(s4.q1Order.length === 0) s4.q1Order = shuffle([...SEASON_DATA]);
+  showS4('s4-q1');
+  s4RenderQ1();
+}
+
+function s4RenderQ1(){
+  const q = s4.q1Order[s4.q1Index];
+  const done = s4.q1Done.has(q.key);
+  s4.locked = done;
+
+  $('s4Q1Step').textContent = `游戏一 · 看图选单词  ${s4.q1Index+1} / 4`;
+  $('s4Q1Scene').textContent = q.scene;
+  $('s4Q1Cn').textContent = q.cn;
+  $('s4Q1Reveal').innerHTML = done
+    ? `${q.en}<span class="rev-cn">${q.cn}${q.alt ? ' / '+q.alt : ''}</span>`
+    : '';
+
+  if(done) setS4Hint('s4Q1Hint', `✅ 已答对：${q.en}（${q.cn}）`, 'ok');
+  else setS4Hint('s4Q1Hint', '这个季节是哪个单词呢？', '');
+
+  const box = $('s4Q1Options');
+  box.innerHTML = '';
+  shuffle([...SEASON_DATA]).forEach(o=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 's4-opt';
+    b.textContent = o.en;
+    if(done){
+      if(o.key === q.key) b.classList.add('correct');
+      else b.classList.add('dim');
+      b.disabled = true;
+    }else{
+      b.addEventListener('click', ()=>s4AnswerQ1(b, o, q));
+    }
+    box.appendChild(b);
+  });
+
+  $('s4Q1Prev').disabled = s4.q1Index === 0;
+  $('s4Q1NextQ').disabled = s4.q1Index === 3;
+}
+
+function s4AnswerQ1(btn, o, q){
+  if(s4.locked) return;
+
+  if(o.key === q.key){
+    s4.locked = true;
+    const r = btn.getBoundingClientRect();
+    floatText(r.left + r.width/2, r.top + 10, '+10', '#0f9d58');
+
+    if(!s4.q1Done.has(q.key)){
+      s4.q1Done.add(q.key);
+      s4AddScore(10);
+      s4RefreshDoneSteps();
+    }
+    speak(q.en);
+    s4RenderQ1();
+  }else{
+    btn.classList.add('wrong');
+    btn.disabled = true;
+    s4AddScore(-2);
+    setS4Hint('s4Q1Hint', `❌ 不是 ${o.en} 哦，再看看图片～`, 'bad');
+    setTimeout(()=>{ btn.classList.remove('wrong'); btn.disabled = false; }, 650);
+  }
+}
+
+/* =========================================================
+   模块一：游戏二 听音选季节
+   ========================================================= */
+function s4StartQ2(){
+  if(s4.q2Order.length === 0) s4.q2Order = shuffle([...SEASON_DATA]);
+  showS4('s4-q2');
+  s4RenderQ2();
+}
+
+function s4RenderQ2(){
+  const q = s4.q2Order[s4.q2Index];
+  const done = s4.q2Done.has(q.key);
+  s4.locked = done;
+
+  $('s4Q2Step').textContent = `游戏二 · 听音选季节  ${s4.q2Index+1} / 4`;
+
+  if(done) setS4Hint('s4Q2Hint', `✅ 已答对：${q.en}（${q.cn}）`, 'ok');
+  else setS4Hint('s4Q2Hint', '听一听，是哪个季节？', '');
+
+  const box = $('s4Q2Options');
+  box.innerHTML = '';
+  shuffle([...SEASON_DATA]).forEach(o=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 's4-card-opt';
+    b.innerHTML =
+      `<span class="co-emoji">${o.emoji}</span>` +
+      `<span class="co-en">${o.en}</span>` +
+      `<span class="co-cn">${o.cn}</span>`;
+    if(done){
+      if(o.key === q.key) b.classList.add('correct');
+      else b.classList.add('dim');
+      b.disabled = true;
+    }else{
+      b.addEventListener('click', ()=>s4AnswerQ2(b, o, q));
+    }
+    box.appendChild(b);
+  });
+
+  $('s4Q2Prev').disabled = s4.q2Index === 0;
+  $('s4Q2NextQ').disabled = s4.q2Index === 3;
+
+  if(!done) setTimeout(()=>speak(q.en), 350);
+}
+
+function s4AnswerQ2(btn, o, q){
+  if(s4.locked) return;
+
+  if(o.key === q.key){
+    s4.locked = true;
+    const r = btn.getBoundingClientRect();
+    floatText(r.left + r.width/2, r.top + 10, '+10', '#0f9d58');
+
+    if(!s4.q2Done.has(q.key)){
+      s4.q2Done.add(q.key);
+      s4AddScore(10);
+      s4RefreshDoneSteps();
+    }
+    speak(q.en);
+    s4RenderQ2();
+  }else{
+    btn.classList.add('wrong');
+    btn.disabled = true;
+    s4AddScore(-2);
+    setS4Hint('s4Q2Hint', `❌ 不是 ${o.en} 哦，再点喇叭听一次～`, 'bad');
+    setTimeout(()=>{ btn.classList.remove('wrong'); btn.disabled = false; }, 650);
+  }
+}
+
+/* =========================================================
+   模块一：游戏三 中英配对
+   ========================================================= */
+function s4StartQ3(){
+  if(s4.matchCnOrder.length === 0) s4.matchCnOrder = shuffle([...SEASON_DATA]);
+  showS4('s4-q3');
+  s4RenderQ3();
+}
+
+function s4RenderQ3(){
+  s4.matchSel = null;
+
+  $('s4Q3Step').textContent = `游戏三 · 中英配对  配对 ${s4.matchPlaced.size} / 4`;
+
+  /* 英文卡区 */
+  const enBox = $('s4MatchSeasons');
+  enBox.innerHTML = '';
+  SEASON_DATA.forEach(s=>{
+    const done = s4.matchPlaced.has(s.key);
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'match-pair' + (done ? ' done' : '');
+    b.textContent = s.en;
+    b.dataset.key = s.key;
+    b.dataset.side = 'en';
+    if(!done) b.addEventListener('click', ()=>s4MatchClick('en', s.key, b));
+    enBox.appendChild(b);
+  });
+
+  /* 中文卡区 */
+  const cnBox = $('s4MatchItems');
+  cnBox.innerHTML = '';
+  s4.matchCnOrder.forEach(s=>{
+    const done = s4.matchPlaced.has(s.key);
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'match-pair' + (done ? ' done' : '');
+    b.textContent = s.cn;
+    b.dataset.key = s.key;
+    b.dataset.side = 'cn';
+    if(!done) b.addEventListener('click', ()=>s4MatchClick('cn', s.key, b));
+    cnBox.appendChild(b);
+  });
+
+  if(s4.matchPlaced.size === 4){
+    setS4Hint('s4Q3Hint', '🎉 全部配对成功！点“下一关”看看成绩吧', 'ok');
+  }else{
+    setS4Hint('s4Q3Hint', '先点一张英文卡，再点它对应的中文卡', '');
+  }
+}
+
+function s4MatchClick(side, key, btn){
+  if(s4.matchPlaced.has(key)) return;
+
+  const sel = s4.matchSel;
+
+  /* 没有任何选中 */
+  if(!sel){
+    s4.matchSel = { side, key, el: btn };
+    btn.classList.add('selected');
+    setS4Hint('s4Q3Hint', side === 'en'
+      ? '现在点它对应的中文卡 👇'
+      : '现在点它对应的英文卡 👆', '');
+    if(side === 'en'){
+      const seasonObj = SEASON_DATA.find(x=>x.key === key);
+      speak(seasonObj.en);
+    }
+    return;
+  }
+
+  /* 再点同一张 → 取消选中 */
+  if(sel.el === btn){
+    sel.el.classList.remove('selected');
+    s4.matchSel = null;
+    setS4Hint('s4Q3Hint', '先点一张英文卡，再点它对应的中文卡', '');
+    return;
+  }
+
+  /* 同一侧切换选中 */
+  if(sel.side === side){
+    sel.el.classList.remove('selected');
+    s4.matchSel = { side, key, el: btn };
+    btn.classList.add('selected');
+    if(side === 'en'){
+      const seasonObj = SEASON_DATA.find(x=>x.key === key);
+      speak(seasonObj.en);
+    }
+    setS4Hint('s4Q3Hint', side === 'en'
+      ? '现在点它对应的中文卡 👇'
+      : '现在点它对应的英文卡 👆', '');
+    return;
+  }
+
+  /* 跨侧判断 */
+  if(sel.key === key){
+    /* 配对正确 */
+    const seasonObj = SEASON_DATA.find(x=>x.key === key);
+
+    sel.el.classList.remove('selected');
+    s4.matchPlaced.add(key);
+    s4AddScore(10);
+    s4RefreshDoneSteps();
+
+    const r = btn.getBoundingClientRect();
+    floatText(r.left + r.width/2, r.top + 10, '+10', '#0f9d58');
+    speak(seasonObj.en);
+
+    s4.matchSel = null;
+    s4RenderQ3();
+
+    if(s4.matchPlaced.size === 4){
+      setS4Hint('s4Q3Hint', '🎉 全部配对成功！点“下一关”看看成绩吧', 'ok');
+      launchConfetti();
+      setTimeout(()=>speak('Well done!'), 600);
+    }else{
+      setS4Hint('s4Q3Hint', `✅ 配对成功！${seasonObj.en} = ${seasonObj.cn}`, 'ok');
+    }
+
+  }else{
+    /* 配对错误 */
+    btn.classList.add('wrong');
+    sel.el.classList.add('wrong');
+    s4AddScore(-2);
+    setS4Hint('s4Q3Hint', '❌ 不是这一对哦，再想一想～', 'bad');
+
+    const selEl = sel.el;
+    s4.matchSel = null;
+    setTimeout(()=>{
+      btn.classList.remove('wrong');
+      if(selEl) selEl.classList.remove('wrong', 'selected');
+    }, 560);
+  }
+}
+
+/* =========================================================
+   模块一：结算 & 重置
+   ========================================================= */
+function s4Finish(){
+  const s = s4.score;
+  const stars = s >= 100 ? 3 : (s >= 70 ? 2 : 1);
+
+  $('s4FinalScore').textContent = s;
+  $('s4Stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3-stars);
+
+  const titles = ['继续加油！','很不错哦！','四季小达人！'];
+  $('s4EndTitle').textContent = titles[stars-1];
+  $('s4EndEmoji').textContent = ['🌱','🎉','🏆'][stars-1];
+
+  $('s4Summary').innerHTML =
+    `<b>Season</b> 季节 · Four seasons in a year<br>` +
+    `🌸 Spring 春天 &nbsp; ☀️ Summer 夏天<br>` +
+    `🍁 Autumn / Fall 秋天 &nbsp; ❄️ Winter 冬天`;
+
+  showS4('s4-end');
+}
+
+function resetS4(){
+  s4.score = 0;
+  s4.doneSteps = 0;
+  s4.locked = false;
+  s4.q1Order = []; s4.q1Index = 0; s4.q1Done = new Set();
+  s4.q2Order = []; s4.q2Index = 0; s4.q2Done = new Set();
+  s4.matchCnOrder = []; s4.matchPlaced = new Set(); s4.matchSel = null;
+  $('s4Score').textContent = '0';
+  s4UpdateProgress();
+  s4BuildLearn();
+  setS4Hint('s4LearnHint', '👆 点每张卡片，跟着读一读吧', '');
+  showS4('s4-start');
+}
+
+/* =========================================================
+   模块二：Chinese Festival
+   ========================================================= */
+const SEASONS = [
+  { key:'spring', en:'Spring', cn:'春天', emoji:'🌸' },
+  { key:'summer', en:'Summer', cn:'夏天', emoji:'☀️' },
+  { key:'autumn', en:'Autumn', cn:'秋天', emoji:'🍁' },
+  { key:'winter', en:'Winter', cn:'冬天', emoji:'❄️' },
+];
+
+const CARDS = [
+  { id:'c1', en:'Chinese Spring Festival', cn:'春节',   emoji:'🧨', season:'spring' },
+  { id:'c2', en:'spring rolls',            cn:'春卷',   emoji:'🥟', season:'spring' },
+  { id:'c3', en:'Dragon Boat Festival',    cn:'端午节', emoji:'🐲', season:'summer' },
+  { id:'c4', en:'zongzi',                  cn:'粽子',   emoji:'🍙', season:'summer' },
+  { id:'c5', en:'Moon Festival',           cn:'中秋节', emoji:'🌕', season:'autumn' },
+  { id:'c6', en:'moon cakes',              cn:'月饼',   emoji:'🥮', season:'autumn' },
+  { id:'c7', en:"New Year's Day",          cn:'元旦',   emoji:'🎊', season:'winter' },
+  { id:'c8', en:'presents',                cn:'礼物',   emoji:'🎁', season:'winter' },
+];
+
+const QUIZ = [
+  { q:'In ______ , we have Chinese Spring Festival.', a:'spring',
+    opts:['spring','summer','autumn','winter'], hint:'春天 · 春节 🧨' },
+  { q:'We have ______ to eat in spring.', a:'spring rolls',
+    opts:['spring rolls','zongzi','moon cakes','presents'], hint:'春天吃春卷 🥟' },
+  { q:'In ______ , we have Dragon Boat Festival.', a:'summer',
+    opts:['summer','spring','autumn','winter'], hint:'夏天 · 端午节 🐲' },
+  { q:'We have ______ to eat in summer.', a:'zongzi',
+    opts:['zongzi','spring rolls','moon cakes','presents'], hint:'夏天吃粽子 🍙' },
+  { q:'In ______ , we have Moon Festival.', a:'autumn',
+    opts:['autumn','spring','summer','winter'], hint:'秋天 · 中秋节 🌕' },
+  { q:'We have ______ to eat in autumn.', a:'moon cakes',
+    opts:['moon cakes','zongzi','spring rolls','presents'], hint:'秋天吃月饼 🥮' },
+  { q:"In ______ , we have New Year's Day.", a:'winter',
+    opts:['winter','spring','summer','autumn'], hint:'冬天 · 元旦 🎊' },
+  { q:'We have ______ in winter.', a:'presents',
+    opts:['presents','zongzi','moon cakes','spring rolls'], hint:'冬天收礼物 🎁' },
+];
+
+function buildLevel1(){
+  const wrap = $('seasons');
+  wrap.innerHTML = '';
+  SEASONS.forEach(s=>{
+    const d = document.createElement('div');
+    d.className = 'season';
+    d.dataset.season = s.key;
+    d.dataset.en = s.en;
+    d.innerHTML =
+      `<div class="s-head"><span class="s-emoji">${s.emoji}</span>` +
+      `<span>${s.en}</span><small>${s.cn}</small></div>` +
+      `<div class="dropzone"></div>`;
+    d.addEventListener('click', ()=>handleDrop(d));
+    wrap.appendChild(d);
+  });
+
+  const pool = $('pool');
+  pool.innerHTML = '';
+  shuffle([...CARDS]).forEach(c=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'card';
+    b.dataset.id = c.id;
+    b.dataset.season = c.season;
+    b.dataset.en = c.en;
+    b.innerHTML = `<span class="c-emoji">${c.emoji}</span>
+      <span><span class="c-en">${c.en}</span><span class="c-cn">${c.cn}</span></span>`;
+    b.addEventListener('click', e=>{ e.stopPropagation(); selectCard(b); });
+    pool.appendChild(b);
+  });
+
+  setHint('先点一张卡片，再点它所在的季节 👇', '');
+}
+
+function selectCard(card){
+  if(card.classList.contains('placed')) return;
+  if(state.selected === card){
+    card.classList.remove('selected');
+    state.selected = null;
+    setHint('先点一张卡片，再点它所在的季节 👇','');
+    return;
+  }
+  if(state.selected) state.selected.classList.remove('selected');
+  state.selected = card;
+  card.classList.add('selected');
+  setHint(`已选中「${card.querySelector('.c-cn').textContent}」—— 现在点一个季节吧！`,'');
+  speak(card.dataset.en);
+}
+
+function handleDrop(seasonEl){
+  if(!state.selected){
+    if(state.placed === CARDS.length) return;
+    seasonEl.classList.add('wrong');
+    setTimeout(()=>seasonEl.classList.remove('wrong'),500);
+    setHint('请先点下面的一张卡片哦 👆','bad');
+    return;
+  }
+
+  const card = state.selected;
+  const seasonKey = seasonEl.dataset.season;
+
+  if(card.dataset.season === seasonKey){
+    const r = seasonEl.getBoundingClientRect();
+    floatText(r.left + r.width/2, r.top + 34, '+10', '#0f9d58');
+
+    card.classList.remove('selected');
+    card.classList.add('placed');
+    card.disabled = true;
+    seasonEl.querySelector('.dropzone').appendChild(card);
+    state.selected = null;
+
+    addScore(10);
+    state.placed++;
+    state.doneSteps++;
+    updateProgress();
+    speak(card.dataset.en);
+
+    setHint(`✅ 正确！${card.dataset.en} 就在 ${seasonEl.dataset.en} 里！`,'ok');
+
+    if(state.placed === CARDS.length){
+      setHint('🎉 第一关全部完成！准备进入第二关……','ok');
+      cfAutoTimer = setTimeout(()=>{
+        cfAutoTimer = null;
+        showCF('cf-level2');
+        startQuiz();
+      }, 1100);
+    }
+  }else{
+    card.classList.add('wrong');
+    seasonEl.classList.add('wrong');
+    setTimeout(()=>{ card.classList.remove('wrong'); seasonEl.classList.remove('wrong'); },520);
+    addScore(-2);
+    setHint('❌ 再想一想～ 它属于别的季节哦','bad');
+  }
+}
+
+function goLevel2(){
+  if(cfAutoTimer){ clearTimeout(cfAutoTimer); cfAutoTimer = null; }
+  const remaining = CARDS.length - state.placed;
+  if(remaining > 0){
+    state.doneSteps += remaining;
+    state.placed = CARDS.length;
+    state.selected = null;
+    updateProgress();
+  }
+  showCF('cf-level2');
+  startQuiz();
+}
+
+function startQuiz(){
+  state.quizIndex = 0;
+  state.locked = false;
+  renderQuiz();
+}
+
+function renderQuiz(){
+  const q = QUIZ[state.quizIndex];
+  $('quizNum').textContent = `${state.quizIndex+1} / ${QUIZ.length}`;
+  $('quizSentence').innerHTML = q.q.replace('______','<span class="blank">______</span>');
+  $('quizHint').textContent = q.hint;
+
+  const box = $('options');
+  box.innerHTML = '';
+  shuffle([...q.opts]).forEach(o=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt';
+    b.textContent = o;
+    b.addEventListener('click', ()=>answer(b, o, q));
+    box.appendChild(b);
+  });
+}
+
+function answer(btn, val, q){
+  if(state.locked) return;
+
+  if(val === q.a){
+    state.locked = true;
+    btn.classList.add('correct');
+
+    const blank = $('quizSentence').querySelector('.blank');
+    blank.textContent = q.a;
+    blank.classList.add('filled');
+
+    const r = btn.getBoundingClientRect();
+    floatText(r.left + r.width/2, r.top + 10, '+10', '#0f9d58');
+
+    addScore(10);
+    state.doneSteps++;
+    updateProgress();
+    speak(q.q.replace('______', q.a));
+
+    setTimeout(()=>{
+      state.locked = false;
+      state.quizIndex++;
+      if(state.quizIndex < QUIZ.length) renderQuiz();
+      else finishCF();
+    }, 950);
+
+  }else{
+    btn.classList.add('wrong');
+    btn.disabled = true;
+    addScore(-2);
+    setTimeout(()=>{ btn.classList.remove('wrong'); btn.disabled = false; }, 650);
+  }
+}
+
+function finishCF(){
+  const s = state.score;
+  const stars = s >= 150 ? 3 : (s >= 110 ? 2 : 1);
+
+  $('finalScore').textContent = s;
+  $('stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3-stars);
+
+  const titles = ['继续加油！','很不错哦！','太棒了！'];
+  $('resultTitle').textContent = titles[stars-1];
+  $('resultEmoji').textContent = ['💪','🎉','🏆'][stars-1];
+
+  $('summary').innerHTML =
+    `你完成了 <b>${state.totalSteps}</b> 个挑战<br>` +
+    `Spring 🌸 · Summer ☀️ · Autumn 🍁 · Winter ❄️<br>` +
+    `In spring, we have Chinese Spring Festival.<br>` +
+    `We have spring rolls to eat.`;
+
+  updateProgress();
+  showCF('cf-end');
+}
+
+function resetCF(){
+  if(cfAutoTimer){ clearTimeout(cfAutoTimer); cfAutoTimer = null; }
+  state.selected = null;
+  state.placed = 0;
+  state.quizIndex = 0;
+  state.score = 0;
+  state.doneSteps = 0;
+  state.locked = false;
+  $('score').textContent = '0';
+  updateProgress();
+  buildLevel1();
+  showCF('cf-start');
+}
+
+/* =========================================================
+   模块三：What do you do?
+   ========================================================= */
+const ROLES = {
+  Monkey: { emoji:'🐒', cn:'猴子', color:'#f59e0b' },
+  Bird:   { emoji:'🐦', cn:'小鸟', color:'#0ea5e9' },
+  Fish:   { emoji:'🐟', cn:'小鱼', color:'#06b6d4' },
+  Piggy:  { emoji:'🐷', cn:'小猪', color:'#ec4899' },
+  Bunny:  { emoji:'🐰', cn:'小兔', color:'#a855f7' },
+  Bear:   { emoji:'🐻', cn:'小熊', color:'#f97316' },
+};
+
+const SEASON_ROLES = {
+  spring: ['Monkey','Bird'],
+  summer: ['Fish','Piggy'],
+  autumn: ['Bunny'],
+  winter: ['Bear'],
+};
+
+const ROUNDS = [
+  { season:'spring', seasonEn:'Spring', seasonCn:'春天', emoji:'🌸',
+    q:'What do you do in spring?', qCn:'春天你做什么？',
+    who:'Monkey',
+    answer:'In spring, I jump and leap in the jungle.',
+    answerCn:'春天，我在丛林里又蹦又跳。' },
+  { season:'spring', seasonEn:'Spring', seasonCn:'春天', emoji:'🌸',
+    q:'What do you do in spring?', qCn:'春天你做什么？',
+    who:'Bird',
+    answer:'I sing and dance in the trees.',
+    answerCn:'我在树上唱歌跳舞。' },
+  { season:'summer', seasonEn:'Summer', seasonCn:'夏天', emoji:'☀️',
+    q:'What do you do in summer?', qCn:'夏天你做什么？',
+    who:'Fish',
+    answer:'In summer, I swim in the river.',
+    answerCn:'夏天，我在河里游泳。' },
+  { season:'summer', seasonEn:'Summer', seasonCn:'夏天', emoji:'☀️',
+    q:'What do you do in summer?', qCn:'夏天你做什么？',
+    who:'Piggy',
+    answer:'And we have watermelons to eat.',
+    answerCn:'而且我们有西瓜吃。' },
+  { season:'autumn', seasonEn:'Autumn', seasonCn:'秋天', emoji:'🍁',
+    q:'What do you do in autumn?', qCn:'秋天你做什么？',
+    who:'Bunny',
+    answer:'In autumn, my sister and I fly kites.',
+    answerCn:'秋天，我和姐姐放风筝。' },
+  { season:'winter', seasonEn:'Winter', seasonCn:'冬天', emoji:'❄️',
+    q:'What do you do in winter?', qCn:'冬天你做什么？',
+    who:'Bear',
+    answer:'In winter, I sleep.',
+    answerCn:'冬天，我睡觉。' },
+  { season:'party', seasonEn:'New Year', seasonCn:'新年', emoji:'🎉',
+    q:'And we have a New Year Party!', qCn:'而且我们还有一个新年派对！',
+    who:null, answer:'Happy New Year!', answerCn:'新年快乐！' },
+];
+
+function wdRenderDots(){
+  const box = $('wdDots');
+  box.innerHTML = '';
+  ROUNDS.forEach((r,i)=>{
+    const d = document.createElement('div');
+    d.className = 'wd-dot';
+    if(i < game.roundIndex) d.classList.add('done');
+    if(i === game.roundIndex) d.classList.add('active');
+    d.textContent = i < game.roundIndex ? '✓' : r.emoji;
+    box.appendChild(d);
+  });
+}
+
+function wdStart(){
+  game.roundIndex = 0;
+  game.score = 0;
+  game.locked = false;
+  $('wdScore').textContent = '0';
+  showWD('wd-game');
+  renderRound();
+}
+
+function renderRound(){
+  const r = ROUNDS[game.roundIndex];
+  game.locked = false;
+
+  wdRenderDots();
+
+  const stage = $('stage');
+  stage.className = 'stage ' + r.season;
+  $('stageSeason').textContent = `${r.emoji} ${r.seasonEn} ${r.seasonCn}`;
+
+  $('samBubble').innerHTML =
+    `<div class="q-en">${r.q}</div><div class="q-cn">${r.qCn}</div>`;
+  speak(r.q);
+
+  $('actorSpot').innerHTML = '';
+  $('wdNextRow').innerHTML = '';
+
+  const box = $('roleOptions');
+  box.className = 'role-options';
+  box.innerHTML = '';
+
+  if(r.season === 'party'){
+    renderPartyRound(r);
+    return;
+  }
+
+  setWdHint('👂 听一听，是谁在回答？选一个小动物吧！','');
+
+  const seasonRoles = SEASON_ROLES[r.season];
+  const pool = Object.keys(ROLES).filter(x => !seasonRoles.includes(x));
+  const distractors = shuffle([...pool]).slice(0,3);
+  const opts = shuffle([r.who, ...distractors]);
+
+  opts.forEach(name=>{
+    const role = ROLES[name];
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'role-card';
+    b.innerHTML = `<span class="rc-emoji">${role.emoji}</span>
+      <span class="rc-name">${name}</span>`;
+    b.addEventListener('click', ()=>chooseRole(b, name, r));
+    box.appendChild(b);
+  });
+}
+
+function chooseRole(btn, name, r){
+  if(game.locked) return;
+
+  if(name === r.who){
+    game.locked = true;
+    btn.classList.add('correct');
+
+    document.querySelectorAll('.role-card').forEach(c=>{
+      if(c !== btn) c.classList.add('dim');
+    });
+
+    const rect = btn.getBoundingClientRect();
+    floatText(rect.left + rect.width/2, rect.top + 10, '+10', '#0f9d58');
+    wdAddScore(10);
+
+    setTimeout(()=>{
+      const role = ROLES[r.who];
+      $('actorSpot').innerHTML =
+        `<div class="actor" style="--c:${role.color}">
+           <div class="actor-emoji">${role.emoji}</div>
+           <div class="actor-name">${r.who}</div>
+         </div>
+         <div class="actor-answer" style="--c:${role.color}">
+           <div class="a-en">${r.answer}</div>
+           <div class="a-cn">${r.answerCn}</div>
+         </div>`;
+      speak(r.answer);
+      setWdHint(`✅ 答对啦！是 ${r.who}（${role.cn}）`,'ok');
+
+      const row = $('wdNextRow');
+      row.innerHTML = '';
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn-sec primary';
+      const isLast = game.roundIndex === ROUNDS.length - 1;
+      b.textContent = isLast ? '完成采访 🎉' : '下一轮 ▶';
+      b.addEventListener('click', ()=>{
+        game.roundIndex++;
+        if(game.roundIndex >= ROUNDS.length) wdFinish();
+        else renderRound();
+      });
+      row.appendChild(b);
+    }, 450);
+
+  }else{
+    btn.classList.add('wrong');
+    btn.disabled = true;
+    wdAddScore(-2);
+    setWdHint(`❌ 不是 ${name} 哦，再想想这个季节谁在做这件事～`,'bad');
+    setTimeout(()=>{ btn.classList.remove('wrong'); btn.disabled = false; }, 650);
+  }
+}
+
+function renderPartyRound(r){
+  setWdHint('🎊 所有小动物都来啦！一起庆祝吧！','');
+
+  const crowd = document.createElement('div');
+  crowd.className = 'party-crowd';
+  ['🐒','🐦','🐟','🐷','🐰','🐻'].forEach(e=>{
+    const s = document.createElement('span');
+    s.className = 'pc';
+    s.textContent = e;
+    crowd.appendChild(s);
+  });
+  $('actorSpot').appendChild(crowd);
+
+  const box = $('roleOptions');
+  box.className = 'role-options party-mode';
+  box.innerHTML = '';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'party-btn';
+  btn.textContent = '🎉 Happy New Year! 🎉';
+  btn.addEventListener('click', ()=>celebrate(r, btn));
+  box.appendChild(btn);
+
+  speak(r.q);
+}
+
+function celebrate(r, btn){
+  if(game.locked) return;
+  game.locked = true;
+  btn.disabled = true;
+
+  launchConfetti();
+  wdAddScore(10);
+
+  document.querySelectorAll('.party-crowd .pc').forEach(el=>{
+    el.style.animation = 'actorBounce .5s ease-in-out 4';
+  });
+
+  speak('Happy New Year!');
+  setWdHint('🎉 Happy New Year! 采访秀圆满完成！','ok');
+
+  setTimeout(()=>{
+    const row = $('wdNextRow');
+    row.innerHTML = '';
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn-sec primary';
+    b.textContent = '看看采访成绩 🏆';
+    b.addEventListener('click', wdFinish);
+    row.appendChild(b);
+  }, 1400);
+}
+
+function launchConfetti(){
+  const colors = ['#ff6fa5','#8b5cf6','#38bdf8','#fbbf24','#34d399','#f97316','#22d3ee'];
+  for(let i=0;i<70;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDuration = (1.6 + Math.random()*1.8) + 's';
+    c.style.animationDelay = (Math.random()*0.6) + 's';
+    c.style.width = (6 + Math.random()*9) + 'px';
+    c.style.height = (10 + Math.random()*14) + 'px';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 3800);
+  }
+}
+
+function wdFinish(){
+  const s = game.score;
+  const stars = s >= 60 ? 3 : (s >= 45 ? 2 : 1);
+
+  $('wdFinalScore').textContent = s;
+  $('wdStars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3-stars);
+
+  const titles = ['继续加油！','很不错哦！','采访达人！'];
+  $('wdResultTitle').textContent = titles[stars-1];
+  $('wdResultEmoji').textContent = ['🎤','🎉','🏆'][stars-1];
+
+  $('wdSummary').innerHTML =
+    `In spring, the monkey jumps and the bird sings.<br>` +
+    `In summer, the fish swims and we eat watermelons.<br>` +
+    `In autumn, the bunny flies kites.<br>` +
+    `In winter, the bear sleeps.<br>` +
+    `And we have a New Year Party! 🎉`;
+
+  showWD('wd-end');
+}
+
+function resetWD(){
+  game.roundIndex = 0;
+  game.score = 0;
+  game.locked = false;
+  $('wdScore').textContent = '0';
+  showWD('wd-start');
+}
+
+/* =========================================================
+   事件绑定
+   ========================================================= */
+document.querySelectorAll('[data-open]').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    const t = b.dataset.open;
+    if(t === 's4'){ resetS4(); showTop('moduleS4'); }
+    else if(t === 'cf'){ resetCF(); showTop('moduleCF'); }
+    else { resetWD(); showTop('moduleWD'); }
+  });
+});
+
+document.querySelectorAll('[data-home]').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    if('speechSynthesis' in window) speechSynthesis.cancel();
+    resetS4();
+    resetCF();
+    resetWD();
+    showTop('home');
+  });
+});
+
+document.querySelectorAll('.sound-btn').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    state.soundOn = !state.soundOn;
+    updateSoundBtns();
+    if(!state.soundOn && 'speechSynthesis' in window) speechSynthesis.cancel();
+  });
+});
+
+/* 模块一 4 Seasons */
+$('s4BtnStart').addEventListener('click', ()=>{
+  s4BuildLearn();
+  showS4('s4-learn');
+  setTimeout(()=>speak('Season'), 300);
+});
+$('s4SeasonWord').addEventListener('click', ()=>{
+  speak('Season');
+  setS4Hint('s4LearnHint', '🔊 Season · 季节（一年有四个季节）', 'ok');
+});
+$('s4BtnToQ1').addEventListener('click', s4StartQ1);
+
+/* 游戏一 导航 */
+$('s4Q1Prev').addEventListener('click', ()=>{
+  if(s4.q1Index > 0){ s4.q1Index--; s4RenderQ1(); }
+});
+$('s4Q1NextQ').addEventListener('click', ()=>{
+  if(s4.q1Index < 3){ s4.q1Index++; s4RenderQ1(); }
+});
+$('s4Q1PrevLv').addEventListener('click', ()=> showS4('s4-learn'));
+$('s4Q1NextLv').addEventListener('click', s4StartQ2);
+
+/* 游戏二 导航 */
+$('s4Q2Prev').addEventListener('click', ()=>{
+  if(s4.q2Index > 0){ s4.q2Index--; s4RenderQ2(); }
+});
+$('s4Q2NextQ').addEventListener('click', ()=>{
+  if(s4.q2Index < 3){ s4.q2Index++; s4RenderQ2(); }
+});
+$('s4Q2PrevLv').addEventListener('click', s4StartQ1);
+$('s4Q2NextLv').addEventListener('click', s4StartQ3);
+
+/* 游戏二 喇叭 */
+$('s4SpeakBtn').addEventListener('click', ()=>{
+  const q = s4.q2Order[s4.q2Index];
+  if(q) speak(q.en);
+});
+
+/* 游戏三 导航 */
+$('s4Q3PrevLv').addEventListener('click', s4StartQ2);
+$('s4Q3NextLv').addEventListener('click', s4Finish);
+
+/* 模块一 结算重玩 */
+$('s4BtnRestart').addEventListener('click', ()=>{
+  resetS4();
+  s4BuildLearn();
+  showS4('s4-learn');
+});
+
+/* 模块二 Chinese Festival */
+$('btnStart').addEventListener('click', ()=>{
+  showCF('cf-level1');
+  buildLevel1();
+  updateProgress();
+});
+$('btnRestart').addEventListener('click', resetCF);
+$('btnNextLevel1').addEventListener('click', goLevel2);
+
+/* 模块三 What do you do? */
+$('wdBtnStart').addEventListener('click', wdStart);
+$('wdBtnRestart').addEventListener('click', ()=>{
+  resetWD();
+  wdStart();
+});
+
+/* =========================================================
+   初始化
+   ========================================================= */
+s4BuildLearn();
+s4UpdateProgress();
+buildLevel1();
+updateProgress();
+updateSoundBtns();
+</script>
+</body>
+</html>
